@@ -1,7 +1,8 @@
+import java.util.ArrayList;
+import java.util.List;
+
 /**
- * Représente un type d'énergie utilisé par un véhicule.
- * Un type d'énergie possède un identifiant, un libellé, une unité
- * et un prix par unité.
+ * Représente un type d'énergie.
  */
 public class TypeEnergie {
 
@@ -10,15 +11,14 @@ public class TypeEnergie {
     private String unite;
     private double prixParUnite;
 
+    private List<Vehicule> vehicules;
+
     /**
-     * Construit un type d'énergie.
-     *
-     * @param idTypeEnergie identifiant du type d'énergie
-     * @param libelle libellé du type d'énergie
-     * @param unite unité utilisée
-     * @param prixParUnite prix par unité
+     * Constructeur classique.
      */
     public TypeEnergie(String idTypeEnergie, String libelle, String unite, double prixParUnite) {
+        this.vehicules = new ArrayList<>();
+
         setIdTypeEnergie(idTypeEnergie);
         setLibelle(libelle);
         setUnite(unite);
@@ -26,17 +26,21 @@ public class TypeEnergie {
     }
 
     /**
-     * Retourne l'identifiant du type d'énergie.
-     * @return l'identifiant
+     * Constructeur de chargement CSV.
      */
+    public TypeEnergie(String[] champs) {
+        this(
+            champs[0],
+            champs[1],
+            champs[2],
+            Double.parseDouble(champs[3].trim())
+        );
+    }
+
     public String getIdTypeEnergie() {
         return idTypeEnergie;
     }
 
-    /**
-     * Modifie l'identifiant du type d'énergie.
-     * @param idTypeEnergie nouvel identifiant
-     */
     public void setIdTypeEnergie(String idTypeEnergie) {
         if (idTypeEnergie != null && !idTypeEnergie.trim().isEmpty()) {
             this.idTypeEnergie = idTypeEnergie;
@@ -45,18 +49,10 @@ public class TypeEnergie {
         }
     }
 
-    /**
-     * Retourne le libellé.
-     * @return le libellé
-     */
     public String getLibelle() {
         return libelle;
     }
 
-    /**
-     * Modifie le libellé.
-     * @param libelle nouveau libellé
-     */
     public void setLibelle(String libelle) {
         if (libelle != null && !libelle.trim().isEmpty()) {
             this.libelle = libelle;
@@ -65,18 +61,10 @@ public class TypeEnergie {
         }
     }
 
-    /**
-     * Retourne l'unité.
-     * @return l'unité
-     */
     public String getUnite() {
         return unite;
     }
 
-    /**
-     * Modifie l'unité.
-     * @param unite nouvelle unité
-     */
     public void setUnite(String unite) {
         if (unite != null && !unite.trim().isEmpty()) {
             this.unite = unite;
@@ -85,23 +73,25 @@ public class TypeEnergie {
         }
     }
 
-    /**
-     * Retourne le prix par unité.
-     * @return le prix par unité
-     */
     public double getPrixParUnite() {
         return prixParUnite;
     }
 
-    /**
-     * Modifie le prix par unité.
-     * @param prixParUnite nouveau prix par unité
-     */
     public void setPrixParUnite(double prixParUnite) {
         if (prixParUnite >= 0) {
             this.prixParUnite = prixParUnite;
         } else {
             this.prixParUnite = 0;
+        }
+    }
+
+    public List<Vehicule> getVehicules() {
+        return vehicules;
+    }
+
+    public void addVehicule(Vehicule vehicule) {
+        if (vehicule != null) {
+            vehicules.add(vehicule);
         }
     }
 }

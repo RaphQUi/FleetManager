@@ -1,8 +1,8 @@
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Représente un véhicule de la flotte.
- * Un véhicule est défini par son identifiant, sa marque, son modèle,
- * son type d'énergie, son prix d'achat, sa consommation, son autonomie,
- * son année d'achat et sa durée d'amortissement.
  */
 public class Vehicule {
 
@@ -16,22 +16,18 @@ public class Vehicule {
     private int anneeAchat;
     private int dureeAmortissement;
 
+    private List<Entretien> entretiens;
+    private List<UtilisationAnnuelle> utilisationsAnnuelles;
+
     /**
-     * Construit un véhicule avec tous ses attributs.
-     *
-     * @param idVehicule identifiant du véhicule
-     * @param marque marque du véhicule
-     * @param modele modèle du véhicule
-     * @param idTypeEnergie identifiant du type d'énergie
-     * @param prixAchat prix d'achat du véhicule
-     * @param consommation consommation du véhicule
-     * @param autonomieKm autonomie en kilomètres
-     * @param anneeAchat année d'achat
-     * @param dureeAmortissement durée d'amortissement en années
+     * Constructeur classique.
      */
     public Vehicule(String idVehicule, String marque, String modele, String idTypeEnergie,
                     double prixAchat, double consommation, int autonomieKm,
                     int anneeAchat, int dureeAmortissement) {
+        this.entretiens = new ArrayList<>();
+        this.utilisationsAnnuelles = new ArrayList<>();
+
         setIdVehicule(idVehicule);
         setMarque(marque);
         setModele(modele);
@@ -44,17 +40,26 @@ public class Vehicule {
     }
 
     /**
-     * Retourne l'identifiant du véhicule.
-     * @return l'identifiant du véhicule
+     * Constructeur de chargement depuis une ligne CSV.
      */
+    public Vehicule(String[] champs) {
+        this(
+            champs[0],
+            champs[1],
+            champs[2],
+            champs[3],
+            Double.parseDouble(champs[4].trim()),
+            Double.parseDouble(champs[5].trim()),
+            Integer.parseInt(champs[6].trim()),
+            Integer.parseInt(champs[7].trim()),
+            Integer.parseInt(champs[8].trim())
+        );
+    }
+
     public String getIdVehicule() {
         return idVehicule;
     }
 
-    /**
-     * Modifie l'identifiant du véhicule.
-     * @param idVehicule nouvel identifiant
-     */
     public void setIdVehicule(String idVehicule) {
         if (idVehicule != null && !idVehicule.trim().isEmpty()) {
             this.idVehicule = idVehicule;
@@ -63,18 +68,10 @@ public class Vehicule {
         }
     }
 
-    /**
-     * Retourne la marque du véhicule.
-     * @return la marque
-     */
     public String getMarque() {
         return marque;
     }
 
-    /**
-     * Modifie la marque du véhicule.
-     * @param marque nouvelle marque
-     */
     public void setMarque(String marque) {
         if (marque != null && !marque.trim().isEmpty()) {
             this.marque = marque;
@@ -83,18 +80,10 @@ public class Vehicule {
         }
     }
 
-    /**
-     * Retourne le modèle du véhicule.
-     * @return le modèle
-     */
     public String getModele() {
         return modele;
     }
 
-    /**
-     * Modifie le modèle du véhicule.
-     * @param modele nouveau modèle
-     */
     public void setModele(String modele) {
         if (modele != null && !modele.trim().isEmpty()) {
             this.modele = modele;
@@ -103,18 +92,10 @@ public class Vehicule {
         }
     }
 
-    /**
-     * Retourne l'identifiant du type d'énergie.
-     * @return l'identifiant du type d'énergie
-     */
     public String getIdTypeEnergie() {
         return idTypeEnergie;
     }
 
-    /**
-     * Modifie l'identifiant du type d'énergie.
-     * @param idTypeEnergie nouvel identifiant du type d'énergie
-     */
     public void setIdTypeEnergie(String idTypeEnergie) {
         if (idTypeEnergie != null && !idTypeEnergie.trim().isEmpty()) {
             this.idTypeEnergie = idTypeEnergie;
@@ -123,18 +104,10 @@ public class Vehicule {
         }
     }
 
-    /**
-     * Retourne le prix d'achat.
-     * @return le prix d'achat
-     */
     public double getPrixAchat() {
         return prixAchat;
     }
 
-    /**
-     * Modifie le prix d'achat.
-     * @param prixAchat nouveau prix d'achat
-     */
     public void setPrixAchat(double prixAchat) {
         if (prixAchat >= 0) {
             this.prixAchat = prixAchat;
@@ -143,18 +116,10 @@ public class Vehicule {
         }
     }
 
-    /**
-     * Retourne la consommation.
-     * @return la consommation
-     */
     public double getConsommation() {
         return consommation;
     }
 
-    /**
-     * Modifie la consommation.
-     * @param consommation nouvelle consommation
-     */
     public void setConsommation(double consommation) {
         if (consommation >= 0) {
             this.consommation = consommation;
@@ -163,18 +128,10 @@ public class Vehicule {
         }
     }
 
-    /**
-     * Retourne l'autonomie en kilomètres.
-     * @return l'autonomie
-     */
     public int getAutonomieKm() {
         return autonomieKm;
     }
 
-    /**
-     * Modifie l'autonomie.
-     * @param autonomieKm nouvelle autonomie
-     */
     public void setAutonomieKm(int autonomieKm) {
         if (autonomieKm >= 0) {
             this.autonomieKm = autonomieKm;
@@ -183,18 +140,10 @@ public class Vehicule {
         }
     }
 
-    /**
-     * Retourne l'année d'achat.
-     * @return l'année d'achat
-     */
     public int getAnneeAchat() {
         return anneeAchat;
     }
 
-    /**
-     * Modifie l'année d'achat.
-     * @param anneeAchat nouvelle année d'achat
-     */
     public void setAnneeAchat(int anneeAchat) {
         if (anneeAchat > 0) {
             this.anneeAchat = anneeAchat;
@@ -203,23 +152,35 @@ public class Vehicule {
         }
     }
 
-    /**
-     * Retourne la durée d'amortissement.
-     * @return la durée d'amortissement
-     */
     public int getDureeAmortissement() {
         return dureeAmortissement;
     }
 
-    /**
-     * Modifie la durée d'amortissement.
-     * @param dureeAmortissement nouvelle durée d'amortissement
-     */
     public void setDureeAmortissement(int dureeAmortissement) {
         if (dureeAmortissement > 0) {
             this.dureeAmortissement = dureeAmortissement;
         } else {
             this.dureeAmortissement = 1;
+        }
+    }
+
+    public List<Entretien> getEntretiens() {
+        return entretiens;
+    }
+
+    public void addEntretien(Entretien entretien) {
+        if (entretien != null) {
+            entretiens.add(entretien);
+        }
+    }
+
+    public List<UtilisationAnnuelle> getUtilisationsAnnuelles() {
+        return utilisationsAnnuelles;
+    }
+
+    public void addUtilisationAnnuelle(UtilisationAnnuelle utilisation) {
+        if (utilisation != null) {
+            utilisationsAnnuelles.add(utilisation);
         }
     }
 }
